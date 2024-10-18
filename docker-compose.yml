@@ -1,0 +1,41 @@
+services:
+  web:
+    build: 
+      context: ./web_app_zenotasks
+      dockerfile: .docker/dockerfile
+    ports:
+        - 3000:3000
+    volumes:
+      - ./web_app_zenotasks:/app
+    depends_on:
+      - api
+    command: yarn dev
+    restart: always
+
+  api:
+    build: 
+      context: ./api_zenotasks
+      dockerfile: .docker/dockerfile
+    ports:
+        - 8000:8000
+    volumes:
+      - ./api_zenotasks:/app
+    depends_on:
+      - db
+    command: fastapi dev main.py --host 0.0.0.0 --port 8000
+    restart: always
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    restart: always
+
+volumes:
+  postgres_data:
