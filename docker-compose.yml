@@ -26,7 +26,7 @@ services:
       - ./api_zenotasks:/app
     depends_on:
       - db
-    command: fastapi dev main.py --host 0.0.0.0 --port 8000
+    command: fastapi dev main.py --host 0.0.0.0 --port 8000 --reload
     restart: always
 
   db:
