@@ -1,0 +1,20 @@
+services:
+  api:
+    build:
+      context: ./api_zenotasks
+      dockerfile: .docker/dockerfile.prod
+    image: tvictal/zenotasks-api
+    env_file:
+      - .backendProd.env
+    ports:
+      - 80:80
+  web:
+    build:
+      context: ./web_app_zenotasks
+      dockerfile: .docker/dockerfile.prod
+    image: tvictal/zenotasks-web
+    env_file:
+      - .frontendProd.env
+    ports:
+      - 81:3000
+    restart: always
